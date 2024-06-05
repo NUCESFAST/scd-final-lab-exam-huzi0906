@@ -45,6 +45,6 @@ pipeline {
                 sh 'docker tag scd-final-lab-exam-huzi0906-server_event_bus:latest huzi0906/scd-final-lab-exam-huzi0906-server_event_bus:latest'
                 sh 'docker push huzi0906/scd-final-lab-exam-huzi0906-server_event_bus:latest'
             }
-                
+        }           
     }
 }
