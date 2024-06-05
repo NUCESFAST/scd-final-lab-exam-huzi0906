@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  client:
+    build: ./client
+    ports:
+      - 1187:80
+
+  server_auth:
+    build: ./server/Auth
+    ports:
+      - 3187:4000
+    environment:
+      MONGO_DB_SECRET: mongodb://db/scd_final
+
+  server_classrooms:
+    build: ./server/Classrooms
+    ports:
+      - 5187:4001
+    environment:
+      MONGO_DB_SECRET: mongodb://db/scd_final
+
+  server_event_bus:
+    build: ./server/event-bus
+    ports:
+      - 7187:4009
+    environment:
+      MONGO_DB_SECRET: mongodb://db/scd_final
+
+  server_post:
+    build: ./server/Post
+    ports:
+      - 9187:4002
+    environment:
+      MONGO_DB_SECRET: mongodb://db/scd_final
+  db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - scd_final:/data/db
+
+volumes:
+  scd_final:
