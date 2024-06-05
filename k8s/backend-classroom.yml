@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-classrooms-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server-classrooms
+  template:
+    metadata:
+      labels:
+        component: server-classrooms
+    spec:
+      containers:
+        - name: server-classrooms
+          image: huzi0906/scd-final-lab-exam-huzi0906-server_classrooms
+          ports:
+            - containerPort: 4001
+          env:
+            - name: MONGO_DB_SECRET
+              value: mongodb://db/scd_final
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-classrooms-service
+spec:
+  type: NodePort
+  ports:
+    - port: 4001
+      targetPort: 4001
+      nodePort: 31400
+  selector:
+    component: server-classrooms

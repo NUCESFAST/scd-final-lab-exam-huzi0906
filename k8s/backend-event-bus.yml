@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-event-bus-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server-event-bus
+  template:
+    metadata:
+      labels:
+        component: server-event-bus
+    spec:
+      containers:
+        - name: server-event-bus
+          image: huzi0906/scd-final-lab-exam-huzi0906-server_event_bus
+          ports:
+            - containerPort: 4009
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-event-bus-service
+spec:
+  type: NodePort
+  ports:
+    - port: 4009
+      targetPort: 4009
+      nodePort: 31405
+  selector:
+    component: server-event-bus

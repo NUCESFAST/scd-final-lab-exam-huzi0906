@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-post-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server-post
+  template:
+    metadata:
+      labels:
+        component: server-post
+    spec:
+      containers:
+        - name: server-post
+          image: huzi0906/scd-final-lab-exam-huzi0906-server_post
+          ports:
+            - containerPort: 4002
+          env:
+            - name: MONGO_DB_SECRET
+              value: mongodb://db/scd_final
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-post-service
+spec:
+  type: NodePort
+  ports:
+    - port: 4002
+      targetPort: 4002
+      nodePort: 31401
+  selector:
+    component: server-post

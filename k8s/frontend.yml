@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: client
+          image: huzi0906/scd-final-lab-exam-huzi0906-client
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-service
+spec:
+  type: NodePort
+  selector:
+    app: client
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      nodePort: 31187

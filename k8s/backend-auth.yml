@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-auth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server-auth
+  template:
+    metadata:
+      labels:
+        component: server-auth
+    spec:
+      containers:
+        - name: server-auth
+          image: huzi0906/scd-final-lab-exam-huzi0906-server_auth
+          ports:
+            - containerPort: 4000
+          env:
+            - name: MONGO_DB_SECRET
+              value: mongodb://db/scd_final
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-auth-service
+spec:
+  type: NodePort
+  ports:
+    - port: 4000
+      targetPort: 4000
+      nodePort: 31000
+  selector:
+    component: server-auth
